@@ -1,0 +1,111 @@
+DevOps_Hands_On_Practice_L2
+
+Day 04 — Basic CI/CD Concepts with Jenkins & GitLab
+
+*****************************************************
+Jenkinsfile- Basic CI Pipeline
+
+pipeline {
+    agent any
+    stage {
+	 stage('Build') {
+	     steps {
+		  echo ' Building project'
+	      }
+         }
+         stage('Test') {
+	     steps {
+	    echo 'Running tests'
+	      }
+        }
+        stage('Deploy') {
+	    steps {
+	    echo 'Deploying appication'
+	    }
+        }
+    }
+}
+
+*****************************************
+Gitlab  CI/CD - Basic Pipeline
+*****************************************
+stages:
+  - build
+  - test
+  - deploy
+build:
+  stage: build
+  script:
+    - echo "Bulding project"
+test:
+  stage: deploy
+  script:
+    - " Deploying application"
+
+**************************************
+Ansible : Install and configure Ngnix
+**************************************
+
+- name: Install and Configure Ngnix
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install ngnix
+      yum:
+	name: ngnix
+	state: present
+    - name: Configure  ngnix
+      template:
+	src: nginx.conf.j2
+	dest: /etc/ngnix/ngnix.conf
+    - name: Start ngnix service
+      service:
+	name: ngnix
+	state: started
+	enabled: yes
+
+**********************************************
+Terraform - EC2 with Security Group
+**********************************************
+
+resouce "aws_security_group" "example" {
+  name	     = "example_security_group"
+  description = "Allow SSH and HTTP"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress { 
+    from_port     = 80
+    to_port       = 80
+    protocol      = "-1"
+    cidr_blocks   = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port     = 0
+    to_port       = 0
+    protocol      = "-1"
+    cidr_blocks   = ["0.0.0.0/0"]
+  }
+}
+
+********************************************************
+Docker
+********************************************************
+
+# Apache Container
+FROM ubuntu:22.04
+RUN apt update && apt install apache2 -y
+RUN echo "Hello Pathnex" > /var/www/html/index.html
+CMD ["apachec1", "-D", "FOREGROUND"]
+
+****************************************************
+# Bash Real Path
+
+/var/www/html
+
+
